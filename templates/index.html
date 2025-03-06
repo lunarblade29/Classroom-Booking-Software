@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Booking System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2 class="text-center">Classroom Booking System</h2>
+
+    <form id="bookingForm" class="mt-3">
+        <div class="row">
+            <div class="col-md-3">
+                <input type="text" id="professor" name="professor" class="form-control" placeholder="Professor Name" list="professorList">
+                <datalist id="professorList"></datalist>
+            </div>
+            <div class="col-md-2">
+                <input type="text" id="room" name="room" class="form-control" placeholder="Classroom" list="roomList">
+                <datalist id="roomList"></datalist>
+            </div>
+            <div class="col-md-2">
+                <input type="date" id="date" name="date" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <input type="time" id="start_time" name="start_time" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <input type="time" id="end_time" name="end_time" class="form-control">
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-success">Book</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Professor</th>
+                <th>Room</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="bookingTable"></tbody>
+    </table>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
