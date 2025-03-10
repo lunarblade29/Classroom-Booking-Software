@@ -1,0 +1,81 @@
+/* General Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container Styling */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Table Styling */
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table th {
+    background-color: #00244C;
+    color: white;
+    padding: 12px;
+}
+
+.table td {
+    padding: 10px;
+}
+
+/* Responsive Table */
+.table-responsive {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* Adjust column widths for Month View */
+.month-view td, .month-view th {
+    min-width: 80px;
+    font-size: 14px;
+    padding: 8px;
+    text-align: center;
+}
+
+/* Improve size of availability indicators */
+.booked-circle,
+.available-circle {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.booked-circle {
+    background-color: red;
+}
+
+.available-circle {
+    background-color: green;
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+    .month-view td, .month-view th {
+        min-width: 60px;
+        font-size: 12px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .table th, .table td {
+        padding: 8px;
+    }
+}

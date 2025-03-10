@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Booking Schedule</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='schedule.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="text-center my-4">Room Booking Schedule</h2>
+
+        <!-- Date Picker and View Toggle -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <input type="date" id="datePicker" class="form-control w-auto">
+
+            <div class="btn-group" role="group" aria-label="View Type">
+                <input type="radio" class="btn-check" name="viewType" id="dayView" value="day" checked>
+                <label class="btn btn-outline-primary" for="dayView">Day</label>
+
+                <input type="radio" class="btn-check" name="viewType" id="weekView" value="week">
+                <label class="btn btn-outline-primary" for="weekView">Week</label>
+
+                <input type="radio" class="btn-check" name="viewType" id="monthView" value="month">
+                <label class="btn btn-outline-primary" for="monthView">Month</label>
+            </div>
+
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-responsive">
+            <table class="table table-bordered text-center table-hover">
+                <thead id="schedule-header" class="fw-bold"></thead>
+                <tbody id="schedule-body"></tbody>
+            </table>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend d-flex justify-content-center mt-3">
+            <span class="me-3"><span class="available-circle"></span> Available</span>
+            <span><span class="booked-circle"></span> Booked</span>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='schedule.js') }}"></script>
+
+</body>
+</html>
