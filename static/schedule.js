@@ -9,7 +9,7 @@ $(document).ready(function () {
     $("#datePicker").on("change", loadSchedule);
     $("input[name='viewType']").on("change", loadSchedule);
 
-    // Initial load
+    // Initial loading
     loadSchedule();
 });
 
