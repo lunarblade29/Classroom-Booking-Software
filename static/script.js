@@ -167,12 +167,15 @@ function fetchBookings() {
         table.innerHTML = ""; // Clear the table
 
         bookings.reverse().forEach(booking => { // Reverse order to show new ones first
+            // Convert the date from yyyy-mm-dd to dd-mm-yyyy
+            let originalDate = booking[3];
+            let formattedDate = formatDate(originalDate);
             let newRow = document.createElement("tr");
             newRow.id = `row-${booking[0]}`;
             newRow.innerHTML = `
                 <td>${booking[1]}</td>
                 <td>${booking[2]}</td>
-                <td>${booking[3]}</td>
+                <td>${formattedDate}</td>
                 <td>${booking[4]}</td>
                 <td>${booking[5]}</td>
                 <td><button class="btn btn-danger btn-sm" onclick="deleteBooking(${booking[0]})">Delete</button></td>
@@ -180,6 +183,12 @@ function fetchBookings() {
             table.prepend(newRow); // Add new row to the top
         });
     });
+}
+
+// 🔧 Helper function to format date
+function formatDate(dateStr) {
+    const parts = dateStr.split("-");
+    return `${parts[2]}-${parts[1]}-${parts[0]}`;  // dd-mm-yyyy
 }
 
 // Delete a booking and update the table

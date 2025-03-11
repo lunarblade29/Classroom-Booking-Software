@@ -8,10 +8,10 @@ body {
 
 /* Container Styling */
 .container {
-    background: white;
+/*    background: white;*/
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+/*    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);*/
     margin-top: 20px;
 }
 
@@ -26,10 +26,12 @@ body {
     background-color: #00244C;
     color: white;
     padding: 12px;
+    border: 3px solid #00244C;
 }
 
 .table td {
     padding: 10px;
+    border: 3px solid #bbb; /* a slightly darker grey for better visibility */
 }
 
 /* Responsive Table */
@@ -78,4 +80,28 @@ body {
     .table th, .table td {
         padding: 8px;
     }
+}
+
+.switch-view-btn {
+    border: 2px solid #800020; /* Bootstrap primary color */
+    background-color: white;
+    color: #800020;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 18px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.switch-view-btn:hover {
+    background-color: #800020;
+    color: white;
+    text-decoration: none;
 }

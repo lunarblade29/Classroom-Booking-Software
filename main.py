@@ -1,8 +1,12 @@
 from flask import Flask, render_template, request, jsonify
 import sqlite3
 from datetime import datetime
+from schedule import schedule_bp
 
 app = Flask(__name__)
+
+# Register blueprint
+app.register_blueprint(schedule_bp)
 
 
 # Initialize database

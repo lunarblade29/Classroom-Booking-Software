@@ -1,9 +1,9 @@
+# schedule.py
 from datetime import datetime, timedelta
-
-from flask import Flask, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify
 import sqlite3
 
-app = Flask(__name__)
+schedule_bp = Blueprint("schedule", __name__, template_folder="templates")
 
 
 def get_db_connection():
@@ -12,12 +12,12 @@ def get_db_connection():
     return conn
 
 
-@app.route("/")
+@schedule_bp.route("/schedule")
 def index():
     return render_template("schedule.html")
 
 
-@app.route("/get_schedule")
+@schedule_bp.route("/get_schedule")
 def get_schedule():
     selected_date = request.args.get("date")
     view_type = request.args.get("view")
@@ -33,7 +33,6 @@ def get_schedule():
         date_obj = datetime.strptime(selected_date, "%Y-%m-%d")
         start_of_week = date_obj - timedelta(days=date_obj.weekday())
         end_of_week = start_of_week + timedelta(days=6)
-
         query = "SELECT * FROM bookings WHERE date BETWEEN ? AND ?"
         params = [start_of_week.strftime("%Y-%m-%d"), end_of_week.strftime("%Y-%m-%d")]
 
@@ -50,10 +49,6 @@ def get_schedule():
         for row in bookings
     ]
 
-    print("Fetched Bookings:", result)  # Debugging log
+    print("Fetched Bookings:", result)
 
     return jsonify(result)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
