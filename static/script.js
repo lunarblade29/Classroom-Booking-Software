@@ -90,7 +90,6 @@ document.addEventListener("DOMContentLoaded", function () {
 "Prof. Vishal Bansal ",
 "Prof. Vivek Rajvanshi"
     ];
-
     const classrooms = [
         "A-104",
         "A-105",
@@ -205,3 +204,22 @@ function deleteBooking(id) {
         fetchBookings();
     });
 }
+
+// Auto-fill end_time based on start_time
+document.getElementById("start_time").addEventListener("change", function () {
+    let startTime = this.value;
+    if (startTime) {
+        let [hours, minutes] = startTime.split(":").map(Number);
+        minutes += 30;
+        hours += 1 + Math.floor(minutes / 60);
+        minutes = minutes % 60;
+        hours = hours % 24; // Optional: Keep it within 24h format
+
+        // Pad hours and minutes to always be two digits
+        let endHours = hours.toString().padStart(2, "0");
+        let endMinutes = minutes.toString().padStart(2, "0");
+        let endTime = `${endHours}:${endMinutes}`;
+
+        document.getElementById("end_time").value = endTime;
+    }
+});

@@ -83,9 +83,9 @@ body {
 }
 
 .switch-view-btn {
-    border: 2px solid #800020; /* Bootstrap primary color */
+    border: 2px solid #702963; /* Bootstrap primary color */
     background-color: white;
-    color: #800020;
+    color: #702963;
     font-weight: 500;
     font-size: 15px;
     padding: 8px 18px;
@@ -101,7 +101,7 @@ body {
 }
 
 .switch-view-btn:hover {
-    background-color: #800020;
+    background-color: #702963;
     color: white;
     text-decoration: none;
 }
