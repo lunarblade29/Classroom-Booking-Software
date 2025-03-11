@@ -109,8 +109,9 @@ document.addEventListener("DOMContentLoaded", function () {
         "L-52",
         "AMPHI EAST 150"
     ];
+print()
 
-    // Function to populate autocomplete suggestions
+    // Function to populate autocomplete suggestion
     function enableAutocomplete(inputId, datalistId, dataList) {
         let input = document.getElementById(inputId);
         let datalist = document.getElementById(datalistId);
