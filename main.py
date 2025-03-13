@@ -57,8 +57,15 @@ def upload_excel():
         conn.close()
 
         return jsonify({"status": "success", "message": "Database updated successfully!"})
+
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
+
+    finally:
+        # 🔥 Clean up the uploaded file
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            print("its probably deleted")
 
 
 # Initialize database
