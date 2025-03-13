@@ -2,11 +2,63 @@ from flask import Flask, render_template, request, jsonify
 import sqlite3
 from datetime import datetime
 from schedule import schedule_bp
+import os
+import pandas as pd
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
 # Register blueprint
 app.register_blueprint(schedule_bp)
+
+UPLOAD_FOLDER = os.path.join(os.getcwd(), "uploads")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+
+@app.route("/upload_excel", methods=["POST"])
+def upload_excel():
+    if 'excel_file' not in request.files:
+        return jsonify({"status": "error", "message": "No file part"})
+
+    file = request.files['excel_file']
+
+    if file.filename == '':
+        return jsonify({"status": "error", "message": "No selected file"})
+
+    if not file.filename.endswith('.xlsx'):
+        return jsonify({"status": "error", "message": "Invalid file type. Please upload an .xlsx file"})
+
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename))
+    file.save(file_path)
+
+    try:
+        df = pd.read_excel(file_path, engine='openpyxl')
+
+        # Check required columns
+        required_columns = {"professor", "room", "date", "start_time", "end_time"}
+        if not required_columns.issubset(df.columns):
+            return jsonify({"status": "error", "message": "Missing required columns in Excel file"})
+
+        # Format columns
+        df["date"] = pd.to_datetime(df["date"]).dt.strftime('%Y-%m-%d')
+        df["start_time"] = pd.to_datetime(df["start_time"].astype(str)).dt.strftime('%H:%M')
+        df["end_time"] = pd.to_datetime(df["end_time"].astype(str)).dt.strftime('%H:%M')
+
+        conn = sqlite3.connect("database.db")
+        c = conn.cursor()
+
+        for _, row in df.iterrows():
+            c.execute("""INSERT INTO bookings (professor, room, date, start_time, end_time) 
+                         VALUES (?, ?, ?, ?, ?)""",
+                      (row["professor"], row["room"], row["date"], row["start_time"], row["end_time"]))
+
+        conn.commit()
+        conn.close()
+
+        return jsonify({"status": "success", "message": "Database updated successfully!"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
 
 
 # Initialize database

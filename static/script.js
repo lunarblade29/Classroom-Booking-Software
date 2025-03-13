@@ -223,3 +223,40 @@ document.getElementById("start_time").addEventListener("change", function () {
         document.getElementById("end_time").value = endTime;
     }
 });
+
+// Handle Excel Upload Form
+document.getElementById("uploadForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const fileInput = document.getElementById("excel_file");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        Swal.fire("No File", "Please select an Excel file before uploading.", "warning");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("excel_file", file);
+
+    fetch("/upload_excel", {
+        method: "POST",
+        body: formData
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        Swal.fire({
+            title: data.status === "success" ? "Upload Successful!" : "Upload Failed!",
+            text: data.message,
+            icon: data.status,
+            confirmButtonText: "OK"
+        });
+
+        if (data.status === "success") {
+            fetchBookings(); // Refresh table after upload
+            fileInput.value = ""; // Reset input
+        }
+    })
+    .catch(() => {
+        Swal.fire("Error", "Something went wrong during file upload.", "error");
+    });
+});
