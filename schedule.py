@@ -45,7 +45,7 @@ def get_schedule():
     conn.close()
 
     result = [
-        {"room": row["room"], "date": row["date"], "start_time": row["start_time"], "end_time": row["end_time"]}
+        {"professor": row["professor"],"room": row["room"], "date": row["date"], "start_time": row["start_time"], "end_time": row["end_time"]}
         for row in bookings
     ]
 

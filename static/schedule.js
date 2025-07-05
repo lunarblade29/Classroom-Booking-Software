@@ -67,14 +67,26 @@ function loadSchedule() {
         $("#schedule-header").html("");
     });
 }
+//Format Booking cells
+function formatBookingCells(bookedEntries) {
+    const viewType = $("input[name='viewType']:checked").val();
 
-// Format booking cells
-function formatBookingCells(bookedRooms) {
-    if (bookedRooms.length > 0) {
-        return bookedRooms.map(room => `<span class="booked-circle"></span> ${room}`).join("<br>");
+    if (bookedEntries.length > 0) {
+        return bookedEntries.map(entry => {
+            const classroom = `<strong>${entry.room}</strong>`;
+            const profPart = viewType === "day" ? ` – ${entry.professor}` : "";
+            return `<div class="booking-line">
+                <span class="booked-circle"></span> ${classroom}${profPart}
+            </div>`;
+        }).join("");
     }
-    return `<span class="available-circle"></span>`;
+
+    return `<span class="available-circle"></span> <span class="text-muted">Available</span>`;
 }
+
+
+
+
 
 // Get rooms booked for a time slot
 function getBookedRoomsForSlot(data, date, timeSlot) {
@@ -85,12 +97,24 @@ function getBookedRoomsForSlot(data, date, timeSlot) {
     let slotStartMinTotal = slotStartHour * 60 + slotStartMin;
     let slotEndMinTotal = slotEndHour * 60 + slotEndMin;
 
-    let bookedRooms = data
+    let booked = data
         .filter(booking => booking.date === date && isTimeSlotBooked(booking, slotStartMinTotal, slotEndMinTotal))
-        .map(booking => booking.room);
+        .map(booking => ({
+            room: booking.room,
+            professor: booking.professor || "Unknown"
+        }));
 
-    return [...new Set(bookedRooms)];
+    // Optional: remove duplicates (based on room + professor)
+    const seen = new Set();
+    return booked.filter(entry => {
+        const key = `${entry.room}-${entry.professor}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+    });
 }
+
+
 
 // Check if a booking overlaps with a time slot
 function isTimeSlotBooked(booking, slotStartMin, slotEndMin) {

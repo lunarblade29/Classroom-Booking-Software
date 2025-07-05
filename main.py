@@ -5,8 +5,25 @@ from schedule import schedule_bp
 import os
 import pandas as pd
 from werkzeug.utils import secure_filename
+from flask_httpauth import HTTPBasicAuth
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
+auth = HTTPBasicAuth()
+
+# Replace with your desired username/password
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+USER_CREDENTIALS = {
+    ADMIN_USERNAME: ADMIN_PASSWORD
+}
+
+
+@auth.verify_password
+def verify_password(username, password):
+    if username in USER_CREDENTIALS and USER_CREDENTIALS[username] == password:
+        return username
 
 # Register blueprint
 app.register_blueprint(schedule_bp)
@@ -87,6 +104,7 @@ init_db()
 
 
 @app.route("/")
+@auth.login_required
 def index():
     return render_template("index.html")
 
